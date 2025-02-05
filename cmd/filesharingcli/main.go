@@ -8,6 +8,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/kunal697/filesharingcli/internal/db"
 	"github.com/kunal697/filesharingcli/internal/routes"
+	"github.com/vercel/go-bridge/go/handler" // Import Vercel bridge
 )
 
 func setupRouter() *gin.Engine {
@@ -16,17 +17,21 @@ func setupRouter() *gin.Engine {
 	}
 
 	db.ConnectDB()
-	router := gin.New()
+	router := gin.Default()
 
 	routes.SiteRoute(router)
 	routes.FileRoute(router)
 
 	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"message": "Hello, world!"})
+		c.JSON(http.StatusOK, gin.H{"message": "Hello from Vercel!"})
 	})
 
 	return router
 }
 
-// Vercel expects an exported function named Handler
-var Handler = setupRouter()
+// Entry point for Vercel deployment
+func main() {
+	router := setupRouter()
+	handler := handler.New(router) // Convert Gin router to Vercel-compatible handler
+	http.ListenAndServe(":8080", handler)
+}
