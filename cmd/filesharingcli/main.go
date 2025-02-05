@@ -8,7 +8,6 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/kunal697/filesharingcli/internal/db"
 	"github.com/kunal697/filesharingcli/internal/routes"
-	"github.com/vercel/go-bridge/go/handler" // Import Vercel bridge
 )
 
 func setupRouter() *gin.Engine {
