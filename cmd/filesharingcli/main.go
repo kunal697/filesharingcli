@@ -12,23 +12,24 @@ import (
 )
 
 func setupRouter() *gin.Engine {
-	if err := godotenv.Load(); err != nil {
-		log.Println("Warning: No .env file found")
-	}
+    // Attempt to load the .env file in development environments
+    if err := godotenv.Load(); err != nil {
+        log.Println("Warning: No .env file found")
+    }
 
-	db.ConnectDB()
-	router := gin.Default()
+    db.ConnectDB()
+    router := gin.Default()
 
-	routes.SiteRoute(router)
-	routes.FileRoute(router)
+    routes.SiteRoute(router)
+    routes.FileRoute(router)
 
-	// Example route
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"message": "Hello from Render!"})
-	})
+    router.GET("/", func(c *gin.Context) {
+        c.JSON(http.StatusOK, gin.H{"message": "Hello from Vercel!"})
+    })
 
-	return router
+    return router
 }
+
 
 // Entry point for Render deployment
 func main() {
