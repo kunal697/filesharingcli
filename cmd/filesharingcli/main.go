@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os" // Import os for accessing environment variables
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -21,16 +22,28 @@ func setupRouter() *gin.Engine {
 	routes.SiteRoute(router)
 	routes.FileRoute(router)
 
+	// Example route
 	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"message": "Hello from Vercel!"})
+		c.JSON(http.StatusOK, gin.H{"message": "Hello from Render!"})
 	})
 
 	return router
 }
 
-// Entry point for Vercel deployment
+// Entry point for Render deployment
 func main() {
 	router := setupRouter()
-	handler := handler.New(router) // Convert Gin router to Vercel-compatible handler
-	http.ListenAndServe(":8080", handler)
+
+	// Use the PORT environment variable, default to 8080 if not set
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Fallback to 8080 if PORT isn't set
+	}
+
+	// Run the Gin server on the dynamic port
+	log.Printf("Server running on port %s", port)
+	err := router.Run(":" + port)
+	if err != nil {
+		log.Fatal("Error starting server: ", err)
+	}
 }
