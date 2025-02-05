@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "cmd/filesharingcli/main.go",
+      "use": "@vercel/go"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "cmd/filesharingcli/main.go"
+    }
+  ]
+}
