@@ -2,7 +2,7 @@ package main
 
 import (
 	"log"
-	"os"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -10,9 +10,9 @@ import (
 	"github.com/kunal697/filesharingcli/internal/routes"
 )
 
-func main() {
+func setupRouter() *gin.Engine {
 	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
+		log.Println("Warning: No .env file found")
 	}
 
 	db.ConnectDB()
@@ -22,13 +22,11 @@ func main() {
 	routes.FileRoute(router)
 
 	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{"message": "Hello, world!"})
+		c.JSON(http.StatusOK, gin.H{"message": "Hello, world!"})
 	})
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-	log.Printf("Server running on port %s", port)
-	router.Run(":" + port)
+	return router
 }
+
+// Vercel expects an exported function named Handler
+var Handler = setupRouter()
