@@ -2,7 +2,8 @@ package main
 
 import (
 	"log"
-	"os"
+	"net/http"
+	"os" // Import os for accessing environment variables
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -10,25 +11,42 @@ import (
 	"github.com/kunal697/filesharingcli/internal/routes"
 )
 
-func main() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
+func setupRouter() *gin.Engine {
+    // Attempt to load the .env file in development environments
+   err := godotenv.Load()
+	if err != nil {
+		log.Println("Warning: No .env file found")
+	} else {
+		log.Println(".env file loaded successfully")
 	}
+    db.ConnectDB()
+    router := gin.Default()
 
-	db.ConnectDB()
-	router := gin.New()
+    routes.SiteRoute(router)
+    routes.FileRoute(router)
 
-	routes.SiteRoute(router)
-	routes.FileRoute(router)
+    router.GET("/", func(c *gin.Context) {
+        c.JSON(http.StatusOK, gin.H{"message": "Hello from Vercel!"})
+    })
 
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{"message": "Hello, world!"})
-	})
+    return router
+}
 
+
+// Entry point for Render deployment
+func main() {
+	router := setupRouter()
+
+	// Use the PORT environment variable, default to 8080 if not set
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "8080" // Fallback to 8080 if PORT isn't set
 	}
+
+	// Run the Gin server on the dynamic port
 	log.Printf("Server running on port %s", port)
-	router.Run(":" + port)
+	err := router.Run(":" + port)
+	if err != nil {
+		log.Fatal("Error starting server: ", err)
+	}
 }
