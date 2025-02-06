@@ -13,10 +13,12 @@ import (
 
 func setupRouter() *gin.Engine {
     // Attempt to load the .env file in development environments
-    if err := godotenv.Load(); err != nil {
-        log.Println("Warning: No .env file found")
-    }
-
+   err := godotenv.Load()
+	if err != nil {
+		log.Println("Warning: No .env file found")
+	} else {
+		log.Println(".env file loaded successfully")
+	}
     db.ConnectDB()
     router := gin.Default()
 
