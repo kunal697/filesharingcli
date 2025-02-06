@@ -15,7 +15,21 @@ import (
 	"github.com/kunal697/filesharingcli/internal/db"
 	"github.com/kunal697/filesharingcli/internal/models"
 	utils "github.com/kunal697/filesharingcli/internal/utilis"
+	"github.com/joho/godotenv"
 )
+func init() {
+	// Try to load from .env file, but don't error if it doesn't exist
+	godotenv.Load()
+
+	// Set default values or use environment variables
+	if os.Getenv("DATABASE_URL") == "" {
+		// Use a default or panic
+		panic("DATABASE_URL environment variable is required")
+	}
+	if os.Getenv("GITHUB_TOKEN") == "" {
+		panic("GITHUB_TOKEN environment variable is required")
+	}
+}
 
 func Uploadfile(c *gin.Context) {
 	authHeader := c.GetHeader("Authorization")

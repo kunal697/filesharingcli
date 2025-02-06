@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -10,7 +11,22 @@ import (
 	"github.com/kunal697/filesharingcli/internal/models"
 	"github.com/kunal697/filesharingcli/internal/utilis"
 	"golang.org/x/crypto/bcrypt"
+	"github.com/joho/godotenv"
 )
+
+func init() {
+	// Try to load from .env file, but don't error if it doesn't exist
+	godotenv.Load()
+
+	// Set default values or use environment variables
+	if os.Getenv("DATABASE_URL") == "" {
+		// Use a default or panic
+		panic("DATABASE_URL environment variable is required")
+	}
+	if os.Getenv("GITHUB_TOKEN") == "" {
+		panic("GITHUB_TOKEN environment variable is required")
+	}
+}
 
 func CreateSite(c *gin.Context) {
 	var input struct {
