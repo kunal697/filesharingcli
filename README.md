@@ -1,6 +1,8 @@
 # FileShare Backend
 
-<img src="https://socialify.git.ci/kunal697/cfileshare/image?custom_description=A+simple+CLI+tool+for+file+sharing.+&description=1&forks=1&language=1&name=1&owner=1&pattern=Solid&stargazers=1&theme=Dark" alt="cfileshare" width="640" height="320" />
+<meta property="og:image" content="https://socialify.git.ci/kunal697/cfileshare/image?custom_description=A+simple+CLI+tool+for+file+sharing.+&description=1&forks=1&language=1&name=1&owner=1&pattern=Solid&stargazers=1&theme=Dark" />
+<meta property="og:image:width" content="1280" />
+<meta property="og:image:height" content="640" />
 
 ## Features
 
