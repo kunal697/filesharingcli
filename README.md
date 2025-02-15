@@ -1,6 +1,6 @@
 # FileShare Backend
 
-[A secure file-sharing backend service that uses GitHub as storage and PostgreSQL for metadata management.](https://socialify.git.ci/kunal697/cfileshare/image?custom_description=A+simple+CLI+tool+for+file+sharing.+&description=1&forks=1&language=1&name=1&owner=1&pattern=Solid&stargazers=1&theme=Dark)
+<img src="https://socialify.git.ci/kunal697/cfileshare/image?custom_description=A+simple+CLI+tool+for+file+sharing.+&description=1&forks=1&language=1&name=1&owner=1&pattern=Solid&stargazers=1&theme=Dark" alt="cfileshare" width="640" height="320" />
 
 ## Features
 
